@@ -77,7 +77,10 @@ def main():
             artista.id = id_counter
             id_counter += 1
             artistas.append(artista)
-            print(f"Artista adicionado com sucesso! ID: {artista.id}")
+            print("\n" + "="*40)
+            print(f"Artista adicionado com sucesso!")
+            print(f"ID do artista: {artista.id} - Nome: {artista.nome}")
+            print("="*40 + "\n")
             
         elif opção == "2":
             if not artistas:
