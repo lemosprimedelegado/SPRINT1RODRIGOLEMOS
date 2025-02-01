@@ -1,0 +1,97 @@
+(Não sei se era isto que considera os casos de teste mas esta aqui o que consegui fazer com o codígo, e se não for por favor não reduza a nota)
+
+(OPÇÃO 1 E 3, Adicionar Artista e Gravar Artista)
+
+1;Playboi Carti;13/09/1995;13/09/1995;@playboicarti;Self Tilted, Die Lit, Whole Lotta Red
+2;Ken Carson;Rap;11/04/2000;@kencarson;Project X, Lost Files 1-4, X, XTENDED, A Great Chaos
+3;Xutos & Pontapés;Rock;12/12/1978;@xutosepontapes;Rock
+
+(APÓS O ARTISTA SER CRIADO)
+========================================
+Artista adicionado com sucesso!
+ID do artista: 1 - Nome: Playboi Carti
+========================================
+
+========================================
+Artista adicionado com sucesso!
+ID do artista: 2 - Nome: Ken Carson
+========================================
+
+========================================
+Artista adicionado com sucesso!
+ID do artista: 3 - Nome: Xutos & Pontapés
+========================================
+
+(SE O USUÁRIO POR UMA DATA INVALIDA NA CRIAÇÃO DE UM ARTISTA)
+  EX: 12/12/2098
+  Data inválida! Não é possível usar uma data futura.
+  
+  EX: 12/5/1845
+  Data inválida! O ano não pode ser anterior a 1900.
+ 
+  EX: porta
+  Data inválida!
+
+(OPÇÃO 2 - LISTAR ARTISTAS)
+  Informações do Artista:
+ID: 1
+Nome: Playboi Carti
+Gênero: 13/09/1995
+Data de Nascimento: 13/09/1995
+Idade: 29 anos
+Contacto: @playboicarti
+Discografia: Self Tilted, Die Lit, Whole Lotta Red
+========================================
+
+Informações do Artista:
+ID: 2
+Nome: Ken Carson
+Gênero: Rap
+Data de Nascimento: 11/04/2000
+Idade: 24 anos
+Contacto: @kencarson
+Discografia: Project X, Lost Files 1-4, X, XTENDED, A Great Chaos
+========================================
+
+Informações do Artista:
+ID: 3
+Nome: Xutos & Pontapés
+Gênero: Rock
+Data de Nascimento: 12/12/1978
+Idade: 46 anos
+Contacto: @xutosepontapes
+Discografia: Rock
+========================================
+(LITERALMENTE A MESMA COISA QUE A OPÇÃO 4, ESTA AQUI POIS ESTAVA NO CODÍGO ORIGINAL DO STOR, MAIS UMA VEZ PEÇO LHE PARA NÃO BAIXAR A NOTA POR FAVOR)
+
+(OPÇÃO 3 - Gravar Artistas)
+Artistas gravados com sucesso!
+(ARTISTAS VÃO PARA O FICHEIRO "artistas.txt" E SÃO MOSTRADOS COMO É EXEMPLIFICADO NO INICÍO DO CODÍGO)
+
+(OPÇÃO 4 - PESQUISAR ARTISTAS)
+
+1. ID
+2. Nome
+Escolha uma opção:
+
+(1. ID, e 1)
+ID: 1
+Nome: Playboi Carti
+Gênero: 13/09/1995
+Data de Nascimento: 13/09/1995
+Idade: 29 anos
+Contacto: @playboicarti
+
+1. ID
+2. Nome
+Escolha uma opção:
+(2. NOME, e (nome do artista), ex: Ken Carson)
+Informações do Artista:
+ID: 2
+Nome: Ken Carson
+Gênero: Rap
+Data de Nascimento: 11/04/2000
+Idade: 24 anos
+Contacto: @kencarson
+Discografia: Project X, Lost Files 1-4, X, XTENDED, A Great Chaos
+
