@@ -1,39 +1,71 @@
-(Não sei se era isto que considera os casos de teste mas esta aqui o que consegui fazer com o codígo, e se não for por favor não reduza a nota)
 
-(OPÇÃO 1 E 3, Adicionar Artista e Gravar Artista)
 
-1;Playboi Carti;13/09/1995;13/09/1995;@playboicarti;Self Tilted, Die Lit, Whole Lotta Red
-2;Ken Carson;Rap;11/04/2000;@kencarson;Project X, Lost Files 1-4, X, XTENDED, A Great Chaos
-3;Xutos & Pontapés;Rock;12/12/1978;@xutosepontapes;Rock
+Caso de Teste 1: Adicionar Artista com Dados Válidos
+Entrada:
+Escolha uma opção: 1
+Nome do artista: Playboi Carti
+Género musical: 13/09/1995
+Data de nascimento: 13/09/1995
+Contacto: @playboicarti
+Discografia: Self Tilted, Die Lit, Whole Lotta Red
 
-(APÓS O ARTISTA SER CRIADO)
-========================================
+Saída esperada:
 Artista adicionado com sucesso!
 ID do artista: 1 - Nome: Playboi Carti
-========================================
+Entrada:
+Escolha uma opção: 1
+Nome do artista: Ken Carson
+Género musical: Rap
+Data de nascimento: 11/04/2000
+Contacto: @kencarson
+Discografia: Project X, Lost Files 1-4, X, XTENDED, A Great Chaos
 
-========================================
+Saída esperada:
 Artista adicionado com sucesso!
 ID do artista: 2 - Nome: Ken Carson
-========================================
+Entrada:
+Escolha uma opção: 1
+Nome do artista: Xutos & Pontapés
+Género musical: Rock
+Data de nascimento: 12/12/1978
+Contacto: @xutosepontapes
+Discografia: Rock
 
-========================================
+Saída esperada:
 Artista adicionado com sucesso!
 ID do artista: 3 - Nome: Xutos & Pontapés
-========================================
 
-(SE O USUÁRIO POR UMA DATA INVALIDA NA CRIAÇÃO DE UM ARTISTA)
-  EX: 12/12/2098
-  Data inválida! Não é possível usar uma data futura.
-  
-  EX: 12/5/1845
-  Data inválida! O ano não pode ser anterior a 1900.
- 
-  EX: porta
-  Data inválida!
+Caso de Teste 2: Adicionar Artista com Data Inválida
+Entrada (Data Futura):
+Escolha uma opção: 1
+Nome do artista: (exemplo: Playboi Carti)
+Data de nascimento: 12/12/2098
 
-(OPÇÃO 2 - LISTAR ARTISTAS)
-  Informações do Artista:
+Saída esperada:
+Data inválida! Não é possível usar uma data futura.
+
+Entrada (Ano Menor que 1900):
+Escolha uma opção: 1
+Nome do artista: (exemplo: Xutos & Pontapés)
+Data de nascimento: 12/5/1845
+
+Saída esperada:
+Data inválida! O ano não pode ser anterior a 1900.
+
+Entrada (Data Inválida):
+Escolha uma opção: 1
+Nome do artista: (exemplo: Ken Carson)
+Data de nascimento: porta
+
+Saída esperada:
+Data inválida!
+
+Caso de Teste 3: Listar Artistas
+Entrada:
+Escolha uma opção: 2
+
+Saída esperada (exemplo):
+Informações do Artista:
 ID: 1
 Nome: Playboi Carti
 Gênero: 13/09/1995
@@ -41,8 +73,6 @@ Data de Nascimento: 13/09/1995
 Idade: 29 anos
 Contacto: @playboicarti
 Discografia: Self Tilted, Die Lit, Whole Lotta Red
-========================================
-
 Informações do Artista:
 ID: 2
 Nome: Ken Carson
@@ -51,8 +81,6 @@ Data de Nascimento: 11/04/2000
 Idade: 24 anos
 Contacto: @kencarson
 Discografia: Project X, Lost Files 1-4, X, XTENDED, A Great Chaos
-========================================
-
 Informações do Artista:
 ID: 3
 Nome: Xutos & Pontapés
@@ -61,31 +89,42 @@ Data de Nascimento: 12/12/1978
 Idade: 46 anos
 Contacto: @xutosepontapes
 Discografia: Rock
-========================================
-(LITERALMENTE A MESMA COISA QUE A OPÇÃO 4, ESTA AQUI POIS ESTAVA NO CODÍGO ORIGINAL DO STOR, MAIS UMA VEZ PEÇO LHE PARA NÃO BAIXAR A NOTA POR FAVOR)
 
-(OPÇÃO 3 - Gravar Artistas)
+Caso de Teste 4: Gravar Artistas em Ficheiro
+Entrada:
+Escolha uma opção: 3
+
+Saída esperada:
 Artistas gravados com sucesso!
-(ARTISTAS VÃO PARA O FICHEIRO "artistas.txt" E SÃO MOSTRADOS COMO É EXEMPLIFICADO NO INICÍO DO CODÍGO)
+(Os artistas são gravados no ficheiro artistas.txt)
 
-(OPÇÃO 4 - PESQUISAR ARTISTAS)
+Caso de Teste 5: Pesquisar Artista por ID
+Entrada:
+Escolha uma opção: 4
+Pesquisar por:
 
-1. ID
-2. Nome
-Escolha uma opção:
-
-(1. ID, e 1)
+ID
+Escolha uma opção: 1
+Digite o ID do artista: 1
+Saída esperada:
+Informações do Artista:
 ID: 1
 Nome: Playboi Carti
 Gênero: 13/09/1995
 Data de Nascimento: 13/09/1995
 Idade: 29 anos
 Contacto: @playboicarti
+Discografia: Self Tilted, Die Lit, Whole Lotta Red
 
-1. ID
+Caso de Teste 6: Pesquisar Artista por Nome
+Entrada:
+Escolha uma opção: 4
+Pesquisar por:
 2. Nome
-Escolha uma opção:
-(2. NOME, e (nome do artista), ex: Ken Carson)
+Escolha uma opção: 2
+Digite o nome do artista: Ken Carson
+
+Saída esperada:
 Informações do Artista:
 ID: 2
 Nome: Ken Carson
@@ -94,4 +133,13 @@ Data de Nascimento: 11/04/2000
 Idade: 24 anos
 Contacto: @kencarson
 Discografia: Project X, Lost Files 1-4, X, XTENDED, A Great Chaos
+
+Caso de Teste 7: Sair do Sistema
+Entrada:
+Escolha uma opção: 5
+
+Saída esperada:
+(Encerra o programa sem mensagem específica)
+
+
 
