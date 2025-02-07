@@ -1,0 +1,222 @@
+LEMOS
+Caso de Teste 1: Adicionar Artista com Dados Válidos
+Entrada:
+Escolha uma opção: 1
+Nome do artista: Playboi Carti
+Género musical: 13/09/1995
+Data de nascimento: 13/09/1995
+Contacto: @playboicarti
+Discografia: Self Tilted, Die Lit, Whole Lotta Red
+
+Saída esperada:
+Artista adicionado com sucesso!
+ID do artista: 1 - Nome: Playboi Carti
+Entrada:
+Escolha uma opção: 1
+Nome do artista: Ken Carson
+Género musical: Rap
+Data de nascimento: 11/04/2000
+Contacto: @kencarson
+Discografia: Project X, Lost Files 1-4, X, XTENDED, A Great Chaos
+
+Saída esperada:
+Artista adicionado com sucesso!
+ID do artista: 2 - Nome: Ken Carson
+Entrada:
+Escolha uma opção: 1
+Nome do artista: Xutos & Pontapés
+Género musical: Rock
+Data de nascimento: 12/12/1978
+Contacto: @xutosepontapes
+Discografia: Rock
+
+Saída esperada:
+Artista adicionado com sucesso!
+ID do artista: 3 - Nome: Xutos & Pontapés
+
+Caso de Teste 2: Adicionar Artista com Data Inválida
+Entrada (Data Futura):
+Escolha uma opção: 1
+Nome do artista: (exemplo: Playboi Carti)
+Data de nascimento: 12/12/2098
+
+Saída esperada:
+Data inválida! Não é possível usar uma data futura.
+
+Entrada (Ano Menor que 1900):
+Escolha uma opção: 1
+Nome do artista: (exemplo: Xutos & Pontapés)
+Data de nascimento: 12/5/1845
+
+Saída esperada:
+Data inválida! O ano não pode ser anterior a 1900.
+
+Entrada (Data Inválida):
+Escolha uma opção: 1
+Nome do artista: (exemplo: Ken Carson)
+Data de nascimento: porta
+
+Saída esperada:
+Data inválida!
+
+Caso de Teste 3: Listar Artistas
+Entrada:
+Escolha uma opção: 2
+
+Saída esperada (exemplo):
+Informações do Artista:
+ID: 1
+Nome: Playboi Carti
+Gênero: 13/09/1995
+Data de Nascimento: 13/09/1995
+Idade: 29 anos
+Contacto: @playboicarti
+Discografia: Self Tilted, Die Lit, Whole Lotta Red
+Informações do Artista:
+ID: 2
+Nome: Ken Carson
+Gênero: Rap
+Data de Nascimento: 11/04/2000
+Idade: 24 anos
+Contacto: @kencarson
+Discografia: Project X, Lost Files 1-4, X, XTENDED, A Great Chaos
+Informações do Artista:
+ID: 3
+Nome: Xutos & Pontapés
+Gênero: Rock
+Data de Nascimento: 12/12/1978
+Idade: 46 anos
+Contacto: @xutosepontapes
+Discografia: Rock
+
+Caso de Teste 4: Gravar Artistas em Ficheiro
+Entrada:
+Escolha uma opção: 3
+
+Saída esperada:
+Artistas gravados com sucesso!
+(Os artistas são gravados no ficheiro artistas.txt)
+
+Caso de Teste 5: Pesquisar Artista por ID
+Entrada:
+Escolha uma opção: 4
+Pesquisar por:
+
+ID
+Escolha uma opção: 1
+Digite o ID do artista: 1
+Saída esperada:
+Informações do Artista:
+ID: 1
+Nome: Playboi Carti
+Gênero: 13/09/1995
+Data de Nascimento: 13/09/1995
+Idade: 29 anos
+Contacto: @playboicarti
+Discografia: Self Tilted, Die Lit, Whole Lotta Red
+
+Caso de Teste 6: Pesquisar Artista por Nome
+Entrada:
+Escolha uma opção: 4
+Pesquisar por:
+2. Nome
+Escolha uma opção: 2
+Digite o nome do artista: Ken Carson
+
+Saída esperada:
+Informações do Artista:
+ID: 2
+Nome: Ken Carson
+Gênero: Rap
+Data de Nascimento: 11/04/2000
+Idade: 24 anos
+Contacto: @kencarson
+Discografia: Project X, Lost Files 1-4, X, XTENDED, A Great Chaos
+
+Caso de Teste 7: Sair do Sistema
+Entrada:
+Escolha uma opção: 5
+
+ALVES
+=== Caso de Teste 1: Criar um concerto com dados válidos ===
+Entrada:
+Nome do artista: Coldplay  
+Local do concerto: Estádio Nacional  
+Data do concerto (formato dd/mm/aaaa): 15/06/2025  
+Hora do concerto (HH:MM): 20:30  
+Capacidade do estabelecimento: 50000  
+Preço do bilhete (€): 75.50  
+Bar disponível (s/n): s  
+
+Saída esperada:
+Concerto 'Coldplay' criado com sucesso!
+
+------------------------------------------------------------
+
+=== Caso de Teste 2: Criar um concerto com data inválida ===
+Entrada:
+Nome do artista: U2  
+Local do concerto: Arena Lisboa  
+Data do concerto (formato dd/mm/aaaa): 15/06/2024  
+Hora do concerto (HH:MM): 21:00  
+Capacidade do estabelecimento: 20000  
+Preço do bilhete (€): 60.00  
+Bar disponível (s/n): n  
+
+Saída esperada:
+A data do concerto não pode ser antes de 01/01/2025!
+(O sistema pede para inserir a data novamente)
+
+------------------------------------------------------------
+
+=== Caso de Teste 3: Listar concertos sem nenhum criado ===
+Entrada:
+(O usuário escolhe a opção "Listar Concertos" no menu)
+
+Saída esperada:
+Nenhum concerto disponível.
+
+------------------------------------------------------------
+
+=== Caso de Teste 4: Reservar um lugar com quantidade válida ===
+Entrada:
+(O usuário escolhe a opção "Reservar Lugar" no menu)  
+Insira o ID do concerto para reservar: 123e4567-e89b-12d3-a456-426614174000  
+Quantos lugares deseja reservar? 2  
+
+Saída esperada:
+Reserva efetuada com sucesso! Código da reserva: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+
+------------------------------------------------------------
+
+=== Caso de Teste 5: Reservar um número maior que a capacidade ===
+Entrada:
+Insira o ID do concerto para reservar: 123e4567-e89b-12d3-a456-426614174000  
+Quantos lugares deseja reservar? 60000  
+
+Saída esperada:
+Lugares insuficientes disponíveis!
+
+------------------------------------------------------------
+
+=== Caso de Teste 6: Listar reservas sem nenhuma feita ===
+Entrada:
+(O usuário escolhe a opção "Listar Reservas" no menu)
+
+Saída esperada:
+Nenhuma reserva encontrada.
+
+------------------------------------------------------------
+
+=== Caso de Teste 7: Inserção de opções inválidas no menu ===
+Entrada:
+Usuário digita: 8
+
+Saída esperada:
+Opção inválida. Tente novamente.
+
+Saída esperada:
+(Encerra o programa sem mensagem específica)
+
+
+
