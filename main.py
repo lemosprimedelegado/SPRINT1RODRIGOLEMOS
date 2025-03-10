@@ -1,6 +1,6 @@
 from persistencia import carregar_artistas, carregar_concertos, carregar_reservas
 from artista import adicionar_artista, listar_artistas, atualizar_artista, eliminar_artista
-from concertos import criar_concerto, visualizar_concertos  # Importando a função de visualizar concertos
+from concertos import criar_concerto, listar_concertos  # Importando a função de visualizar concertos
 from reservas import reservar_lugar, listar_reservas  # Certifique-se de que listar_reservas está importado
 from uteis import calcular_idade
 import webbrowser  # Nova importação para abrir o navegador
@@ -18,7 +18,7 @@ def main():
         print("3. Atualizar Artista")
         print("4. Eliminar Artista")
         print("5. Criar Concerto")
-        print("6. Visualizar Concertos")  # Agora é a opção 6 para visualizar concertos
+        print("6. Visualizar Concertos") 
         print("7. Reservar Lugar")
         print("8. Listar Reservas")
         print("9. Sair do Sistema")  # Nova opção 10 para sair do sistema
@@ -34,11 +34,11 @@ def main():
         elif opcao == "4":
             eliminar_artista(artistas)
         elif opcao == "5":
-            criar_concerto()  # Chama a função para criar concertos
+            criar_concerto(artistas)  # Modificado: passando a lista de artistas como parâmetro
         elif opcao == "6":
-            visualizar_concertos()  # Chama a função para visualizar concertos
+            listar_concertos()  # Chama a função para visualizar concertos
         elif opcao == "7":
-            reservar_lugar()  # Chama a função para reservar lugares
+            reservar_lugar(reservas, concertos)  # Corrigido: passando os argumentos necessários
         elif opcao == "8":
             listar_reservas(reservas, concertos)  # Passa reservas e concertos
         elif opcao == "9":
