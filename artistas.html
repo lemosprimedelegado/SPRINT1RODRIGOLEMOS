@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gestão de Artistas</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .search-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .search-inputs {
+            display: flex;
+            gap: 15px;
+        }
+
+        .search-field {
+            flex: 1;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 5px rgba(52,152,219,0.3);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: 500;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        button.delete {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        button.edit {
+            background-color: #3498db;
+            color: white;
+            margin-right: 5px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 25px;
+            width: 70%;
+            max-width: 800px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .close {
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .table-container {
+            display: none; /* Hide table by default */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gestão de Artistas</h1>
+
+        <!-- Modified search container -->
+        <div class="search-container">
+            <h3>Pesquisar Artista</h3>
+            <div class="search-inputs">
+                <div class="search-field">
+                    <label for="searchId">Por ID:</label>
+                    <input type="text" 
+                           id="searchId" 
+                           placeholder="Digite o ID do artista..."
+                           onkeyup="filterArtists()">
+                </div>
+                <div class="search-field">
+                    <label for="searchNome">Por Nome:</label>
+                    <input type="text" 
+                           id="searchNome" 
+                           placeholder="Digite o nome do artista..."
+                           onkeyup="filterArtists()">
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulário para adicionar artista -->
+        <div class="form-container">
+            <h2>Adicionar Novo Artista</h2>
+            <form id="artistaForm">
+                <div class="form-group">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="estilo">Estilo Musical:</label>
+                    <input type="text" id="estilo" name="estilo" required>
+                </div>
+                <div class="form-group">
+                    <label for="data_nascimento">Data de Nascimento:</label>
+                    <input type="date" id="data_nascimento" name="data_nascimento" required>
+                </div>
+                <div class="form-group">
+                    <label for="contacto">Contacto:</label>
+                    <input type="text" id="contacto" name="contacto" placeholder="Telefone ou email">
+                </div>
+                <div class="form-group">
+                    <label for="discografia">Discografia:</label>
+                    <textarea id="discografia" name="discografia" rows="4"></textarea>
+                </div>
+                <button type="submit">Adicionar Artista</button>
+            </form>
+        </div>
+
+        <!-- Modal para atualizar artista -->
+        <div id="updateModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Atualizar Artista</h2>
+                <form id="updateForm">
+                    <input type="hidden" id="update_id">
+                    <div class="form-group">
+                        <label for="update_nome">Nome:</label>
+                        <input type="text" id="update_nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="update_estilo">Estilo Musical:</label>
+                        <input type="text" id="update_estilo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="update_data_nascimento">Data de Nascimento:</label>
+                        <input type="date" id="update_data_nascimento" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="update_contacto">Contacto:</label>
+                        <input type="text" id="update_contacto">
+                    </div>
+                    <div class="form-group">
+                        <label for="update_discografia">Discografia:</label>
+                        <textarea id="update_discografia" rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="edit">Atualizar</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Table container -->
+        <div id="tableContainer" class="table-container">
+            <h2>Lista de Artistas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Estilo</th>
+                        <th>Data de Nascimento</th>
+                        <th>Contacto</th>
+                        <th>Discografia</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for artista in artistas %}
+                    <tr>
+                        <td>{{ artista.id }}</td>
+                        <td>{{ artista.nome }}</td>
+                        <td>{{ artista.estilo }}</td>
+                        <td>{{ artista.data_nascimento }}</td>
+                        <td>{{ artista.contacto }}</td>
+                        <td>{{ artista.discografia }}</td>
+                        <td>
+                            <button class="edit" onclick="editarArtista({{ artista.id }}, '{{ artista.nome }}', '{{ artista.estilo }}', '{{ artista.data_nascimento }}', '{{ artista.contacto }}', '{{ artista.discografia }}')">Editar</button>
+                            <button class="delete" onclick="removerArtista({{ artista.id }})">Remover</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Função para adicionar artista
+        document.getElementById('artistaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const data = {
+                nome: document.getElementById('nome').value,
+                estilo: document.getElementById('estilo').value,
+                data_nascimento: document.getElementById('data_nascimento').value,
+                contacto: document.getElementById('contacto').value,
+                discografia: document.getElementById('discografia').value
+            };
+
+            fetch('/add_artista', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                location.reload();
+            })
+            .catch(error => alert('Erro ao adicionar artista'));
+        });
+
+        // Função para remover artista
+        function removerArtista(id) {
+            if (confirm('Tem certeza que deseja remover este artista?')) {
+                fetch('/remove_artista', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id: id })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    location.reload();
+                })
+                .catch(error => alert('Erro ao remover artista'));
+            }
+        }
+
+        // Função para abrir modal de edição
+        function editarArtista(id, nome, estilo, data_nascimento, contacto, discografia) {
+            document.getElementById('update_id').value = id;
+            document.getElementById('update_nome').value = nome;
+            document.getElementById('update_estilo').value = estilo;
+            document.getElementById('update_data_nascimento').value = data_nascimento;
+            document.getElementById('update_contacto').value = contacto;
+            document.getElementById('update_discografia').value = discografia;
+            document.getElementById('updateModal').style.display = 'block';
+        }
+
+        // Fechar modal
+        document.querySelector('.close').onclick = function() {
+            document.getElementById('updateModal').style.display = 'none';
+        }
+
+        // Atualizar artista
+        document.getElementById('updateForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const data = {
+                id: parseInt(document.getElementById('update_id').value),
+                nome: document.getElementById('update_nome').value,
+                estilo: document.getElementById('update_estilo').value,
+                data_nascimento: document.getElementById('update_data_nascimento').value,
+                contacto: document.getElementById('update_contacto').value,
+                discografia: document.getElementById('update_discografia').value
+            };
+
+            fetch('/update_artista', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                location.reload();
+            })
+            .catch(error => alert('Erro ao atualizar artista'));
+        });
+
+        // Função de pesquisa
+        function filterArtists() {
+            const searchId = document.getElementById('searchId').value.trim().toLowerCase();
+            const searchNome = document.getElementById('searchNome').value.trim().toLowerCase();
+            const tableContainer = document.getElementById('tableContainer');
+            
+            if (searchId || searchNome) {
+                // Show table if there's any search value
+                tableContainer.style.display = 'block';
+                
+                // Filter rows
+                const rows = document.querySelectorAll('tbody tr');
+                rows.forEach(row => {
+                    const id = row.querySelector('td:first-child').textContent.toLowerCase();
+                    const nome = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                    
+                    if ((searchId && id.includes(searchId)) || 
+                        (searchNome && nome.includes(searchNome))) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            } else {
+                // Hide table if both searches are empty
+                tableContainer.style.display = 'none';
+            }
+        }
+
+        // Hide table on page load
+        window.onload = function() {
+            document.getElementById('tableContainer').style.display = 'none';
+        };
+
+        function fecharModal() {
+            document.getElementById('updateModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('updateModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
