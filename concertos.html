@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gestão de Concertos</title>
+    <style>
+        /* Same base styles as artistas.html */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        h1, h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        /* Add specific styles for concertos */
+        .available {
+            color: green;
+            font-weight: bold;
+        }
+
+        .sold-out {
+            color: red;
+            font-weight: bold;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 5px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gestão de Concertos</h1>
+
+        <!-- Search section -->
+        <div class="search-container">
+            <h3>Pesquisar Concerto</h3>
+            <div class="search-inputs">
+                <div class="search-field">
+                    <label for="searchId">Por ID:</label>
+                    <input type="text" id="searchId" placeholder="Digite o ID do concerto...">
+                </div>
+                <div class="search-field">
+                    <label for="searchArtista">Por Artista:</label>
+                    <input type="text" id="searchArtista" placeholder="Digite o nome do artista...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Form to add new concert -->
+        <div class="form-container">
+            <h2>Adicionar Novo Concerto</h2>
+            <form id="concertoForm">
+                <div class="form-group">
+                    <label for="artista">Artista:</label>
+                    <select id="artista" name="artista" required>
+                        {% for artista in artistas %}
+                        <option value="{{ artista.id }}">{{ artista.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="data">Data:</label>
+                    <input type="datetime-local" id="data" name="data" required>
+                </div>
+                <div class="form-group">
+                    <label for="local">Local:</label>
+                    <input type="text" id="local" name="local" required>
+                </div>
+                <div class="form-group">
+                    <label for="lugares">Lugares Disponíveis:</label>
+                    <input type="number" id="lugares" name="lugares_disponiveis" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="preco">Preço:</label>
+                    <input type="number" id="preco" name="preco" min="0" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="bar_disponivel">Bar Disponível (S/N):</label>
+                    <input type="text" id="bar_disponivel" name="bar_disponivel" 
+                           pattern="[sSnN]" maxlength="1" required 
+                           placeholder="Digite S ou N">
+                </div>
+                <button type="submit">Adicionar Concerto</button>
+            </form>
+        </div>
+
+        <!-- Table of concerts -->
+        <div id="tableContainer" class="table-container">
+            <h2>Lista de Concertos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Artista</th>
+                        <th>Data</th>
+                        <th>Local</th>
+                        <th>Lugares</th>
+                        <th>Preço</th>
+                        <th>Bar</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for concerto in concertos %}
+                    <tr>
+                        <td>{{ concerto.id }}</td>
+                        <td>{{ concerto.artista }}</td>
+                        <td>{{ concerto.data }}</td>
+                        <td>{{ concerto.local }}</td>
+                        <td>{{ concerto.lugares_disponiveis }}</td>
+                        <td>€{{ concerto.preco }}</td>
+                        <td>{{ 'Sim' if concerto.bar_disponivel else 'Não' }}</td>
+                        <td>
+                            <button class="edit" onclick="editarConcerto({{ concerto.id }})">Editar</button>
+                            <button class="delete" onclick="removerConcerto({{ concerto.id }})">Remover</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add this modal for editing concerts -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2>Editar Concerto</h2>
+            <form id="editForm">
+                <input type="hidden" id="edit_id">
+                <div class="form-group">
+                    <label for="edit_artista">Artista:</label>
+                    <select id="edit_artista" required>
+                        {% for artista in artistas %}
+                        <option value="{{ artista.id }}">{{ artista.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edit_data">Data:</label>
+                    <input type="datetime-local" id="edit_data" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit_local">Local:</label>
+                    <input type="text" id="edit_local" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit_lugares">Lugares Disponíveis:</label>
+                    <input type="number" id="edit_lugares" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit_preco">Preço:</label>
+                    <input type="number" id="edit_preco" min="0" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit_bar">Bar Disponível (S/N):</label>
+                    <input type="text" id="edit_bar" pattern="[sSnN]" maxlength="1" required>
+                </div>
+                <button type="submit">Atualizar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('concertoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const dataConcerto = new Date(document.getElementById('data').value);
+            if (dataConcerto.getFullYear() < 2025) {
+                alert('Data inválida. O concerto deve ser realizado a partir de 2025');
+                return;
+            }
+
+            const data = {
+                artista: document.getElementById('artista').value,
+                data: document.getElementById('data').value,
+                local: document.getElementById('local').value,
+                lugares_disponiveis: document.getElementById('lugares').value,
+                preco: document.getElementById('preco').value,
+                bar_disponivel: document.getElementById('bar_disponivel').value
+            };
+
+            fetch('/add_concerto', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    alert(data.message);
+                    location.reload();
+                }
+            })
+            .catch(error => alert('Erro ao adicionar concerto'));
+        });
+
+        // Add filtering function
+        function filterConcertos() {
+            const searchValue = document.getElementById('searchArtista').value.trim().toLowerCase();
+            const tableContainer = document.getElementById('tableContainer');
+            
+            if (searchValue) {
+                tableContainer.style.display = 'block';
+                const rows = document.querySelectorAll('tbody tr');
+                rows.forEach(row => {
+                    const artista = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                    if (artista.includes(searchValue)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            } else {
+                tableContainer.style.display = 'none';
+            }
+        }
+
+        // Add event listener for artist search
+        document.getElementById('searchArtista').addEventListener('keyup', filterConcertos);
+
+        // Hide table on load
+        window.onload = function() {
+            document.getElementById('tableContainer').style.display = 'none';
+        };
+
+        // Function to edit concert
+        function editarConcerto(id) {
+            const concerto = concertos.find(c => c.id === id);
+            if (concerto) {
+                document.getElementById('edit_id').value = concerto.id;
+                document.getElementById('edit_artista').value = concerto.artista;
+                document.getElementById('edit_data').value = concerto.data;
+                document.getElementById('edit_local').value = concerto.local;
+                document.getElementById('edit_lugares').value = concerto.lugares_disponiveis;
+                document.getElementById('edit_preco').value = concerto.preco;
+                document.getElementById('edit_bar').value = concerto.bar_disponivel ? 'S' : 'N';
+                
+                document.getElementById('editModal').style.display = 'block';
+            }
+        }
+
+        // Function to remove concert
+        function removerConcerto(id) {
+            if (confirm('Tem certeza que deseja remover este concerto?')) {
+                fetch(`/remove_concerto`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id: id })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    location.reload();
+                })
+                .catch(error => alert('Erro ao remover concerto'));
+            }
+        }
+
+        // Edit form submission
+        document.getElementById('editForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const dataConcerto = new Date(document.getElementById('edit_data').value);
+            if (dataConcerto.getFullYear() < 2025) {
+                alert('Data inválida. O concerto deve ser realizado a partir de 2025');
+                return;
+            }
+
+            const data = {
+                id: document.getElementById('edit_id').value,
+                artista: document.getElementById('edit_artista').value,
+                data: document.getElementById('edit_data').value,
+                local: document.getElementById('edit_local').value,
+                lugares_disponiveis: document.getElementById('edit_lugares').value,
+                preco: document.getElementById('edit_preco').value,
+                bar_disponivel: document.getElementById('edit_bar').value
+            };
+
+            fetch('/update_concerto', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    alert(data.message);
+                    location.reload();
+                }
+            })
+            .catch(error => alert('Erro ao atualizar concerto'));
+        });
+
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
